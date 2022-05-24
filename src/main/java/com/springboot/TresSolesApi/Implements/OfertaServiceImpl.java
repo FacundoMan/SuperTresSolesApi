@@ -24,7 +24,7 @@ public class OfertaServiceImpl implements OfertaService {
 	}
 
 	@Override
-	public Oferta getById(Long id) {
+	public Oferta getOfertaById(Long id) {
 		return repository.findById(id).get();
 	}
 
@@ -34,10 +34,6 @@ public class OfertaServiceImpl implements OfertaService {
 		
 	}
 
-	@Override
-	public void deletOferta(Long id) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

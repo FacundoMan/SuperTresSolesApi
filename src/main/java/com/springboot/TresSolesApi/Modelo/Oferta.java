@@ -10,13 +10,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="Oferta")
+@SequenceGenerator(name="ofertaSeq", initialValue=1000, allocationSize=100)
 public class Oferta {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator = "ofertaSeq")
 	@Column(name="ofertaId")
 	private Long id;
 	@Column(name="ofertaTipo", unique=true)
@@ -63,12 +65,11 @@ public class Oferta {
 		this.productos = productos;
 	}
 	
-	public Oferta verificarOferta() throws SupermercadoException {
+	public void verificarOferta() throws SupermercadoException {
 		if(this.getDescripcion().isEmpty()) throw new SupermercadoException("La descripcion no puede ser vacia");		
 		if(this.getTipo().isEmpty())throw new SupermercadoException("El nombre del tipo de oferta no puede ser vacio");
 		if(this.getDescripcion().length()>300) throw new SupermercadoException("El maximo de la descripcion es de 300 caracteres");
 		if(this.getTipo().length()>20)throw new SupermercadoException("El maximo de del nombre del tipo de oferta es de 20 caracteres");
-		return this;
 	}
 	
 }

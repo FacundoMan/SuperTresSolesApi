@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.fasterxml.jackson.databind.BeanProperty;
+import com.springboot.TresSolesApi.Utilidad.Utilidades;
 
 //(scanBasePackages={"com.springboot.TresSolesApi"})
 @SpringBootApplication
@@ -18,6 +19,7 @@ public class TresSolesApiApplication implements  CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(TresSolesApiApplication.class, args);
 		System.out.println("Probando");
+		
 	}
 
 	@Override

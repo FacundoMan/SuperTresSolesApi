@@ -12,14 +12,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name="Producto")
+@SequenceGenerator(name="productoSeq", initialValue=1000, allocationSize=100)
 public class Producto {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="productoSeq")
 	@Column(name="productoId")
 	private Long id;
 	@Column(name="productoNombre")
