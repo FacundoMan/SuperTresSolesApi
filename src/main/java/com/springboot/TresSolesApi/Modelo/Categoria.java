@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.springboot.TresSolesApi.Utilidad.Utilidades;
 
 @Entity
@@ -26,6 +27,7 @@ public class Categoria {
 	private String nombre;
 	//Esto es para el borrado logico, si es true es que esta borrado
 	@ManyToMany(mappedBy="categorias")
+	@JsonIgnore
 	private List<Producto>productos=new ArrayList<>();
 	
 	@Column(name="categoriaBorrado")
@@ -33,6 +35,9 @@ public class Categoria {
 	
 	public Categoria() {
 		
+	}
+	public Categoria(Long id) {
+		this.id=id;
 	}
 
 	public Long getId() {

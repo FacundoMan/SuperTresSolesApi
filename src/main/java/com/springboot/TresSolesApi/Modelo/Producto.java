@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.springboot.TresSolesApi.Utilidad.Utilidades;
+
 
 @Entity
 @Table(name="Producto")
@@ -27,12 +29,14 @@ public class Producto {
 	@Column(name="productoNombre")
 	private String nombre;
 	
-	@ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(cascade= {CascadeType.ALL, CascadeType.MERGE})
 	@JoinTable(
 			name="productoCategoria",
 			joinColumns=@JoinColumn(name="productoId"),
 			inverseJoinColumns=@JoinColumn(name="categoriaId"))
 	private List<Categoria> categorias=new ArrayList<>();
+	
+	
 	@Column(name="productoPrecio")
 	private double precio;
 	
@@ -135,7 +139,30 @@ public class Producto {
 		this.borrado = borrado;
 	}
 	
+	public void addNuevaCategoria(Categoria c) {
+		categorias.add(c);
+	}
 	
+	public void verificarProducto() throws SupermercadoException {
+		//Nombre
+		if(this.getNombre().isEmpty())throw new SupermercadoException("El nombre no puede ser vacio");
+		if(this.getNombre().length()<3)throw new SupermercadoException("El nombre no puede ser menor a 3 caracteres");
+		if(this.getNombre().length()>40)throw new SupermercadoException("El nombre no puede ser mayor a 40 caracteres");
+		if(Utilidades.verificarCaracteresEspeciales(this.getNombre()))throw new SupermercadoException("El nombre no puede contener caracteres especiales");
+		//Precio
+		if(this.getPrecio()<0)throw new SupermercadoException("El precio tiene que ser mayor a 0");
+		if(this.getPrecio()>1000000)throw new SupermercadoException("El precio tiene que ser menor a 1 millon");
+		//Imagen
+		if(this.getUrlImagen().isEmpty()|| this.getUrlImagen()==null)throw new SupermercadoException("El url de la imagen no puede ser vacio");
+		//Descripcion
+		if(this.getDescripcion().isEmpty())throw new SupermercadoException("La descripcion no puede ser vacia");
+		if(this.getDescripcion().length()>1000)throw new SupermercadoException("La descripcion no puede ser mayor a 1000 caracteres");
+		//Categoria
+		if(this.getCategorias().isEmpty())throw new SupermercadoException("Tiene que tener al menos 1 categoria");
+		
+		
+		
+	}
 	
 	
 }

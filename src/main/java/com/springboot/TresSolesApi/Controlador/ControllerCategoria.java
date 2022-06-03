@@ -47,9 +47,16 @@ public class ControllerCategoria {
 		return service.getAllCategoria();
 	}
 	
-	@GetMapping("/GetCategoria/{id}")
-	public Categoria getById(@PathVariable Long id) {
-		return service.getCategoriaById(id);
+	@GetMapping("/getCategoria/{id}")
+	public ResponseEntity<?> getById(@PathVariable Long id) {
+		Map<String,Object>response=new HashMap<>();
+		try {
+			return new ResponseEntity<Categoria>(service.getCategoriaById(id),HttpStatus.OK);
+		} catch (Exception e) {
+			response.put("Mensaje",e.getMessage());
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 	}
 	
 }

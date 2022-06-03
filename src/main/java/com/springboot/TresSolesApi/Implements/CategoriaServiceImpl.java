@@ -1,6 +1,8 @@
 package com.springboot.TresSolesApi.Implements;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springboot.TresSolesApi.Modelo.Categoria;
+import com.springboot.TresSolesApi.Modelo.Producto;
+import com.springboot.TresSolesApi.Modelo.SupermercadoException;
 import com.springboot.TresSolesApi.Repositorio.CategoriaRepository;
 import com.springboot.TresSolesApi.Service.CategoriaService;
 
@@ -24,14 +28,30 @@ public class CategoriaServiceImpl implements CategoriaService {
 	}
 
 	@Override
-	public Categoria getCategoriaById(Long id) {
-		return repository.findById(id).get();
+	public Categoria getCategoriaById(Long id) throws SupermercadoException {
+		
+		if(repository.findById(id).isPresent()) {
+			return repository.findById(id).get();
+		}else {
+			throw new SupermercadoException("Esa categoria no existe");
+		}
+		
 	}
 
 	@Override
 	public void addCategoria(Categoria categoria) {
 		repository.save(categoria);
 	}
+
+	@Override
+	public Categoria getCategoriaByNombre(String nombre) throws SupermercadoException {
+		if(repository.findCategoriaByNombre(nombre)!=null) {
+			return repository.findCategoriaByNombre(nombre);
+		}else {
+			throw new SupermercadoException("Esa categoria no existe");
+		}
+	}
+
 
  
 }
