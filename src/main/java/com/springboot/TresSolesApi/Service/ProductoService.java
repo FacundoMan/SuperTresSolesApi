@@ -14,4 +14,6 @@ public interface ProductoService {
 	public void addProducto(Producto producto);
 	
 	public List<Producto> getProductosByCategoria(Long idCategoria);
+	
+	public List<Producto> getProductosOfertas();
 }

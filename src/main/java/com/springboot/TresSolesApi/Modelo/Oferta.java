@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Oferta")
 @SequenceGenerator(name="ofertaSeq", initialValue=1000, allocationSize=100)
@@ -27,6 +29,7 @@ public class Oferta {
 	private String descripcion;
 	
 	@OneToMany(mappedBy = "oferta")
+	@JsonIgnore
 	private List<Producto> productos=new ArrayList<>();
 	
 	public Oferta() {

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +35,7 @@ public class ControllerProducto {
 	@Autowired
 	CategoriaService serviceCategoria;
 	
-	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/add")
 	public ResponseEntity<?> add(@RequestBody Producto producto) {
 		Map<String,Object>response=new HashMap<>();
@@ -91,5 +92,10 @@ public class ControllerProducto {
 	@GetMapping("/getProductos/{idCategoria}")
 	public List<Producto> getProductosByCategoriaId(@PathVariable Long idCategoria){
 		return service.getProductosByCategoria(idCategoria);
+	}
+	
+	@GetMapping("/getProductosOfertas")
+	public List<Producto> getProductosConOfertas(){
+		return service.getProductosOfertas();
 	}
 }

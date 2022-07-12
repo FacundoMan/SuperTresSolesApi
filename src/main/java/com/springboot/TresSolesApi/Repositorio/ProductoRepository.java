@@ -12,4 +12,9 @@ public interface ProductoRepository extends CrudRepository<Producto, Long> {
 	@Query(value="Select * from producto join producto_categoria on producto.producto_id=producto_categoria.producto_id where producto_categoria.categoria_id=:query", nativeQuery = true)
 	List<Producto> findProductosByCategoria(Long query);
 	
+	@Query(value="Select * from producto join producto_categoria on producto.producto_id=producto_categoria.producto_id where producto_oferta is not null", nativeQuery = true)
+	List<Producto> findProductosConOfertas();
+	
+	//inner join oferta on producto.producto_oferta=oferta.oferta_id 
+	
 }

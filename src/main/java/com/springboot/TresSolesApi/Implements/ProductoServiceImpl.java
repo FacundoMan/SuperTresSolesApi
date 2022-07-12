@@ -41,4 +41,9 @@ public class ProductoServiceImpl implements ProductoService{
 		return (List<Producto>) repository.findProductosByCategoria(idCategoria);
 	}
 
+	@Override
+	public List<Producto> getProductosOfertas() {
+		return (List<Producto>) repository.findProductosConOfertas();
+	}
+
 }

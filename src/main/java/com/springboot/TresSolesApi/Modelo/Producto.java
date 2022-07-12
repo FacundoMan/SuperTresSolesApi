@@ -20,7 +20,7 @@ import com.springboot.TresSolesApi.Utilidad.Utilidades;
 
 @Entity
 @Table(name="Producto")
-@SequenceGenerator(name="productoSeq", initialValue=1000, allocationSize=100)
+@SequenceGenerator(name="productoSeq", initialValue=1000, allocationSize=1)
 public class Producto {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="productoSeq")
