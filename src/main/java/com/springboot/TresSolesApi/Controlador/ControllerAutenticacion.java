@@ -75,12 +75,11 @@ public class ControllerAutenticacion {
 		usuario.setRoles(Collections.singleton(roles));
 		
 		usuarioService.addNuevoUsuario(usuario);
-		response.put("Mensaje","El usuario se registro existosamente");	
+		response.put("Mensaje","Usuario creado correctamente");
 		} catch (SupermercadoException e) {
 			response.put("Mensaje",e.getMessage());
 			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
 	}
 	

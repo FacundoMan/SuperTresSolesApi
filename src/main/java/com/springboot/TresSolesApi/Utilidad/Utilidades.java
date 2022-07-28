@@ -1,9 +1,21 @@
 package com.springboot.TresSolesApi.Utilidad;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.springboot.TresSolesApi.Modelo.Usuario;
+import com.springboot.TresSolesApi.Service.UsuarioService;
+
 public class Utilidades {
+	@Autowired
+	UsuarioService serviceUsuario;
 	
 	//Devuelve true si hay un caracter especial
 	static public boolean verificarCaracteresEspeciales(String a) { 
@@ -27,6 +39,7 @@ public class Utilidades {
 		}
 		return false;
 	}
+	
 	
 	
 }
