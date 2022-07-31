@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
+//import javax.json.Json;
+//import javax.json.JsonArray;
+//import javax.json.JsonObject;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,6 +25,9 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.springboot.TresSolesApi.Utilidad.Utilidades;
+
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 
 @Entity
 @Table(name = "usuarios", uniqueConstraints = { @UniqueConstraint(columnNames = { "nombreUsuario" }) })
