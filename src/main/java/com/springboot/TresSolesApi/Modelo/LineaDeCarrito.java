@@ -23,10 +23,10 @@ public class LineaDeCarrito {
 	private Long id;
 	@Column(name="linea_de_carrito_cantidad")
 	private int cantidad;
-	
 	@ManyToOne
 	@JoinColumn(name="producto_id")
 	private Producto producto;
+	
 	@ManyToOne()
 	@JoinColumn(name = "carrito_id")
 	@JsonIgnore

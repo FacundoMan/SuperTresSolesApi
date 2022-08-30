@@ -55,10 +55,16 @@ public class ControllerAutenticacion {
 	
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
+		Usuario u=usuarioService.findByNombreUsuario(loginDTO.getNombreUsuario()).get();
+		
 		//Obtenemos el token del  jwtTokenProvider
 		String token=jwtTokenProvider.generarToken(authentication);
+		JWTAuthResponseDTO authen=new JWTAuthResponseDTO(token);
+		for (Rol r : u.getRoles()) {
+			authen.addRol(r.getNombre());
+		}
 		
-		return ResponseEntity.ok(new JWTAuthResponseDTO(token));
+		return ResponseEntity.ok(authen);
 	}
 	
 	@PostMapping("/registrarUsuario")

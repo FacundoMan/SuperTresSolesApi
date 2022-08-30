@@ -2,6 +2,7 @@ package com.springboot.TresSolesApi.Seguridad;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -19,9 +20,11 @@ import io.jsonwebtoken.UnsupportedJwtException;
 @Component
 public class JwtTokenProvider {
 	
+	
 	@Value("${app.jwt-secret}")
 	private String jwtSecret;
 	
+
 	@Value("${app.jwt-expiration-milliseconds}")
 	private int jwtExpirationInMs;
 	

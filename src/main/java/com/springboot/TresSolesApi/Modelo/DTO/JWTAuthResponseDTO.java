@@ -1,8 +1,12 @@
 package com.springboot.TresSolesApi.Modelo.DTO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JWTAuthResponseDTO {
 	private String tokenAcceso;
 	private String tipoToken="Bearer";
+	private List<String> roles =new ArrayList<>();
 	
 	
 	
@@ -15,6 +19,7 @@ public class JWTAuthResponseDTO {
 		this.tokenAcceso = tokenAcceso;
 		this.tipoToken = tipoToken;
 	}
+	
 	public String getTokenAcceso() {
 		return tokenAcceso;
 	}
@@ -27,6 +32,20 @@ public class JWTAuthResponseDTO {
 	public void setTipoToken(String tipoToken) {
 		this.tipoToken = tipoToken;
 	}
+	
+	
+	public List<String> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+	
+	public void addRol(String rol) {
+		roles.add(rol);
+	}
+	
+	
 	
 	
 }
