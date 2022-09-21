@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 
 import com.springboot.TresSolesApi.Modelo.Producto;
+import com.springboot.TresSolesApi.Modelo.SupermercadoException;
 import com.springboot.TresSolesApi.Repositorio.ProductoRepository;
 import com.springboot.TresSolesApi.Service.ProductoService;
+import com.springboot.TresSolesApi.Utilidad.Utilidades;
 
 @Service
 @Transactional
@@ -44,6 +46,14 @@ public class ProductoServiceImpl implements ProductoService{
 	@Override
 	public List<Producto> getProductosOfertas() {
 		return (List<Producto>) repository.findProductosConOfertas();
+	}
+
+	@Override
+	public void modificarProducto(Long idProducto, Producto p) throws SupermercadoException {
+		Utilidades.verificarOferta(p.getOferta());
+		Utilidades.verificarPrecio(p.getPrecio());
+		repository.updateById(idProducto, p.getPrecio(), p.getOferta());
+		
 	}
 
 }

@@ -4,11 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
-
-//import javax.json.Json;
-//import javax.json.JsonArray;
-//import javax.json.JsonObject;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -110,7 +105,7 @@ public class Usuario {
 	
 	public void validarUsuario() throws SupermercadoException {
 		//Nombre Y Apellido
-		if(this.getNombre().isEmpty())throw new SupermercadoException("El nombre no puede ser vacio.");
+		if(this.getNombre().isEmpty()||this.getNombre()==null)throw new SupermercadoException("El nombre no puede ser vacio.");
 		if(this.getApellido().isEmpty())throw new SupermercadoException("El apellido no puede ser vacio.");
 		if(this.getApellido().length()<3 || this.getApellido().length()>15)throw new SupermercadoException("El apellido tiene que ser de 3 a 15 caracteres.");
 		if(this.getNombre().length()<3 || this.getNombre().length()>15)throw new SupermercadoException("El nombre tiene que ser de 3 a 15 caracteres.");
@@ -120,7 +115,7 @@ public class Usuario {
 		if(Utilidades.verificarCaracteresEspeciales(this.getNombre()) || Utilidades.verificarNumero(this.getNombre()))throw new SupermercadoException("El nombre no puede contener caracteres especiales o numeros.");
 
 		//Celular
-		if(this.getNumeroContacto().isEmpty())throw new SupermercadoException("El numero de contacto no puede ser vacio.");	
+		if(this.getNumeroContacto().isEmpty() || this.getNumeroContacto()==null)throw new SupermercadoException("El numero de contacto no puede ser vacio.");	
 		if(!this.getNumeroContacto().matches("09(.*)"))throw new SupermercadoException("El numero de contacto tiene que empezar con 09.");
 		//if(this.getNumeroContacto().toString(). || this.getNumeroContacto().charAt(1)!='1')throw new SupermercadoException("El numero de contacto tiene que empezar con 09.");
 		if(this.getNumeroContacto().length()!=9)throw new SupermercadoException("El numero de contacto tiene que tener 9 numeros.");
@@ -130,13 +125,18 @@ public class Usuario {
 		String apellido=this.getApellido().toUpperCase().charAt(0) + this.getApellido().substring(1, this.getApellido().length()).toLowerCase();
 		this.setApellido(apellido);
 		//Contraseña
+		if(this.getPassword()==null)throw new SupermercadoException("La contraseña no puede ser vacio");
 		if(this.getPassword().length()<8 ||this.getPassword().length()>15)throw new SupermercadoException("La contraseña tiene que ser de 8 a 15 de largo. Actual("+this.getPassword().length()+")");
 		if(Utilidades.hayEspacio(this.getPassword()))throw new SupermercadoException("La contraseña no puede contener espacios");
 		//Usuario
+		if(this.getNombreUsuario()==null)throw new SupermercadoException("El usuario no puede ser vacio");
 		if(this.getNombreUsuario().length()<5 || this.getNombreUsuario().length()>25)throw new SupermercadoException("El usuario tiene que ser de 5 a 25 de largo");
 		if(Utilidades.hayEspacio(this.getNombreUsuario())||Utilidades.verificarCaracteresEspeciales(this.getNombreUsuario()))throw new SupermercadoException("El usuario no puede contener espacios ni caracteres especiales");
 		
 	}
+	
+	
+	
 	
 	public String convertirAJson() {
 		JsonObject usuJson = (JsonObject) Json.createObjectBuilder()

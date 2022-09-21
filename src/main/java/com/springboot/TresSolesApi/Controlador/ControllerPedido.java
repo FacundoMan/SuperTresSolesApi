@@ -33,6 +33,11 @@ public class ControllerPedido {
 		return pedidoService.obtenerTodosLosPedidos();
 	}
 	
+	@GetMapping("/pedidosEntregados")
+	public List<Pedido>getPedidosEntregados(){
+		return pedidoService.pedidosFiltradosPorEstado((long) 6);
+	}
+	
 	//El id de los pedidos se encuentra en utilidades "EstadosPedido"
 	@GetMapping("/pedidosCancelados")
 	public List<Pedido>getPedidosCancelados(){

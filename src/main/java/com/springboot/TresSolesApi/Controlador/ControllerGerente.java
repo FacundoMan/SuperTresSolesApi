@@ -17,22 +17,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.springboot.TresSolesApi.Modelo.Categoria;
+import com.springboot.TresSolesApi.Modelo.Producto;
 import com.springboot.TresSolesApi.Modelo.Rol;
 import com.springboot.TresSolesApi.Modelo.SupermercadoException;
 import com.springboot.TresSolesApi.Modelo.Usuario;
-import com.springboot.TresSolesApi.Modelo.DTO.LoginDTO;
 import com.springboot.TresSolesApi.Modelo.DTO.RegistroDTO;
+import com.springboot.TresSolesApi.Service.CategoriaService;
+import com.springboot.TresSolesApi.Service.PedidoService;
+import com.springboot.TresSolesApi.Service.ProductoService;
 import com.springboot.TresSolesApi.Service.RolService;
 import com.springboot.TresSolesApi.Service.UsuarioService;
 import com.springboot.TresSolesApi.Utilidad.ConvertirDTOaNormal;
 
 @RestController
-@RequestMapping("api/gerente")
+@RequestMapping("api/Gerente")
 @PreAuthorize("hasRole('ROLE_GERENTE')")
 public class ControllerGerente {
 	
@@ -47,6 +51,13 @@ public class ControllerGerente {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	PedidoService pedidoService;
+	@Autowired
+	ProductoService serviceProducto;
+	@Autowired
+	CategoriaService serviceCategoria;
 	
 	@PostMapping("/registrarPicker")
 	public ResponseEntity<?> registrarPicking(@RequestBody RegistroDTO registroDTO){
@@ -116,4 +127,62 @@ public class ControllerGerente {
 		}
 		
 	}
+	
+	@GetMapping("/obtenerEmpleados")
+	public List<Usuario> getEmpleados(){
+		return usuarioService.findEmpleados();
+	}
+	
+	
+	@PutMapping("/modificarProducto/{id}")
+	public ResponseEntity<?> modificarProducto(@RequestBody Producto p,@PathVariable Long id){
+		Map<String,Object>response=new HashMap<>();
+	try {
+		serviceProducto.modificarProducto(id, p);	
+		response.put("Mensaje","Se modifico correctamente el producto");
+	} catch (SupermercadoException e) {
+		response.put("Mensaje",e.getMessage());
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
+	}
+	@PostMapping("/agregarProducto")
+	public ResponseEntity<?> add(@RequestBody Producto producto) {
+		Map<String,Object>response=new HashMap<>();
+		
+		try {
+			producto.verificarProducto();
+			Producto p = new Producto();
+			p.setNombre(producto.getNombre());
+			p.setPrecio(producto.getPrecio());
+			p.setBorrado(false);
+			p.setDescripcion(producto.getDescripcion());
+			p.setUrlImagen(producto.getUrlImagen());
+			p.setOferta(producto.getOferta());
+	
+			for(Categoria c:producto.getCategorias()) {	
+				Categoria cNew=new Categoria();
+				if(c.getId()!=null) {
+					cNew=serviceCategoria.getCategoriaById(c.getId());
+				}else if(c.getNombre()!=null) {
+					cNew=serviceCategoria.getCategoriaByNombre(c.getNombre());
+				}
+				
+				if(cNew==null)throw new SupermercadoException("No se encontro la categoria seleccionada");
+				p.agregarCategoria(cNew);
+			}
+			
+		
+			
+			serviceProducto.addProducto(p);
+			response.put("Mensaje","Se creo correctamente el producto");
+		} catch (SupermercadoException e) {
+			response.put("Mensaje",e.getMessage());
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
+	}
+	
+	
+	
 }

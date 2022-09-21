@@ -12,16 +12,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.TresSolesApi.Modelo.Categoria;
-import com.springboot.TresSolesApi.Modelo.Oferta;
 import com.springboot.TresSolesApi.Modelo.Producto;
 import com.springboot.TresSolesApi.Modelo.SupermercadoException;
 import com.springboot.TresSolesApi.Service.CategoriaService;
-import com.springboot.TresSolesApi.Service.OfertaService;
+
 import com.springboot.TresSolesApi.Service.ProductoService;
 
 @RestController
@@ -30,12 +30,26 @@ import com.springboot.TresSolesApi.Service.ProductoService;
 public class ControllerProducto {
 	@Autowired
 	ProductoService service;
-	@Autowired
-	OfertaService serviceOferta;
+
 	@Autowired
 	CategoriaService serviceCategoria;
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	/*@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PutMapping("/modificarProducto/{id}")
+	public ResponseEntity<?> modificarProducto(@RequestBody Producto p,@PathVariable Long id){
+		Map<String,Object>response=new HashMap<>();
+	try {
+		service.modificarProducto(id, p);	
+		response.put("Mensaje","Se modifico correctamente el producto");
+	} catch (SupermercadoException e) {
+		response.put("Mensaje",e.getMessage());
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
+	}
+	*/
+	
+	/*@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/add")
 	public ResponseEntity<?> add(@RequestBody Producto producto) {
 		Map<String,Object>response=new HashMap<>();
@@ -48,13 +62,7 @@ public class ControllerProducto {
 			p.setBorrado(false);
 			p.setDescripcion(producto.getDescripcion());
 			p.setUrlImagen(producto.getUrlImagen());
-			//La oferta puede ser vacia
-			if(producto.getOferta()!=null) {
-			Oferta o=serviceOferta.getOfertaById(producto.getOferta().getId());
-			if(o==null)throw new SupermercadoException("No se encontro la oferta seleccionada");
-			p.setOferta(o);
-			}
-			
+			p.setOferta(producto.getOferta());
 			for(Categoria c:producto.getCategorias()) {	
 				Categoria cNew=new Categoria();
 				if(c.getId()!=null) {
@@ -64,7 +72,7 @@ public class ControllerProducto {
 				}
 				
 				if(cNew==null)throw new SupermercadoException("No se encontro la categoria seleccionada");
-				p.addNuevaCategoria(cNew);
+				p.agregarCategoria(cNew);
 			}
 			
 		
@@ -76,7 +84,7 @@ public class ControllerProducto {
 			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
-	}
+	}*/
 	
 	@GetMapping("/getProductos")
 	public List<Producto> getAll(){

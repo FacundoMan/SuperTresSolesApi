@@ -21,6 +21,7 @@ import com.springboot.TresSolesApi.Repositorio.PedidoRepository;
 import com.springboot.TresSolesApi.Service.PedidoService;
 import com.springboot.TresSolesApi.Service.UsuarioService;
 import com.springboot.TresSolesApi.Utilidad.EstadosPedido;
+import com.springboot.TresSolesApi.Utilidad.Utilidades;
 import com.springboot.TresSolesApi.Repositorio.EstadoRepository;
 
 @Service
@@ -83,6 +84,16 @@ public class PedidoServiceImpl implements PedidoService {
 		p.setCambio(pedido.getCambio());
 		p.setFormaDePago(pedido.getFormaDePago());
 		p.setEnvioORetiro(pedido.getEnvioORetiro());
+		double totalConDescuento=0;
+		for (LineaDeCarrito l : lineaDeCarrito) {
+			if(l.getProducto().getOferta()==0) {
+				totalConDescuento=totalConDescuento+(l.getCantidad()*l.getProducto().getPrecio());
+			}else {
+				totalConDescuento=totalConDescuento+(l.getCantidad()*Utilidades.calulcarDescuento(l.getProducto().getPrecio(),l.getProducto().getOferta()));
+			}
+			
+		}
+		p.setTotal(totalConDescuento);
 		Pedido p2=pedidoRepository.save(p);
 		if(p2.getId()==null)throw new SupermercadoException("El id de ese pedido no existe");
 		for (LineaDeCarrito l : lineaDeCarrito) {

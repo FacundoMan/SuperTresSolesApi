@@ -19,8 +19,7 @@ public class ControllerRepartidor {
 	
 	@Autowired
 	PedidoService pedidoService;
-	@Autowired
-	UsuarioService usuarioService;
+	
 	@GetMapping("/pedidosRepartidor")
 	public List<Pedido> getPedidosRepartidor(){
 		//id 3 Por_Recoger id 4 En_Camino 6 Entregado

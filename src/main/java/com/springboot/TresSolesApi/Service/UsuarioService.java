@@ -14,4 +14,7 @@ public interface UsuarioService {
 	public List<Usuario> findByIdRolUsuarios(Long rol);
 	public List<Usuario> findByRolUsuarios(String rolNombre);
 	public Usuario findUsuarioById(Long id) throws SupermercadoException;
+	public List<Usuario> findEmpleados();
+	public void modificarCelularUsuario(long idUsuario,String celular);
+	public void modificarPasswordUsuario(long idUsuario,String password);
 }

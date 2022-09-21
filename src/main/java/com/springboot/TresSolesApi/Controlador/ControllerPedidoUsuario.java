@@ -57,6 +57,7 @@ public class ControllerPedidoUsuario {
 			pedidoService.confirmarPedido(listaCarrito, p);
 			//Borro las lineas del carrito
 			
+			
 			carritoService.limpiarCarrito(c.getId());
 			response.put("Mensaje","Se creo correctamente el pedido");
 		} catch (SupermercadoException e) {

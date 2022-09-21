@@ -48,6 +48,8 @@ public class Pedido {
 	//Esto es para saber si se retira en caja o se arma el envio
 	@Column (name="pedido_envio_retiro")
 	private String envioORetiro;
+	@Column (name="pedido_total")
+	private double total;
 	@ManyToOne()
 	@JoinColumn(name="pedido_estado_id")
 	private Estado estado;
@@ -137,6 +139,12 @@ public class Pedido {
 	public void setEnvioORetiro(String envioORetiro) {
 		this.envioORetiro = envioORetiro;
 	}
-
+	public double getTotal() {
+		return total;
+	}
+	public void setTotal(double total) {
+		this.total = total;
+	}
+	
 
 }

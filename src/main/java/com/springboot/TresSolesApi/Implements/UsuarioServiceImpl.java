@@ -89,4 +89,28 @@ public class UsuarioServiceImpl implements UsuarioService {
 				
 	}
 
+	@Override
+	public List<Usuario> findEmpleados() {
+		List<Usuario> usuariosReturn=new ArrayList<>();
+		List<Usuario> usuarioRepo=repository.findUsuariosByTwoRol("ROLE_PICKER","ROLE_REPARTIDOR");
+		if(!usuarioRepo.isEmpty()) {
+			for (Usuario usuario : usuarioRepo) {
+				Usuario u=OcultarContraseñaUsuario.ocultarContraseña(usuario);
+				usuariosReturn.add(u);
+			}
+		}
+		return usuariosReturn;
+	}
+
+	@Override
+	public void modificarCelularUsuario(long idUsuario, String celular) {
+		repository.modificarCelular(idUsuario, celular);	
+	}
+
+	@Override
+	public void modificarPasswordUsuario(long idUsuario, String password) {
+		repository.modificarPassword(idUsuario, password);
+	}
+	
+
 }

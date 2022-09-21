@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -40,9 +39,9 @@ public class Producto {
 	@Column(name="productoPrecio")
 	private double precio;
 	
-	@ManyToOne
-	@JoinColumn(name="productoOferta")
-	private Oferta oferta;
+
+	@Column(name="productoOferta")
+	private int oferta;
 	
 	@Column(name="productoUrlImagen")
 	private String urlImagen;
@@ -100,12 +99,12 @@ public class Producto {
 	}
 
 
-	public Oferta getOferta() {
+	public int getOferta() {
 		return oferta;
 	}
 
 
-	public void setOferta(Oferta oferta) {
+	public void setOferta(int oferta) {
 		this.oferta = oferta;
 	}
 
@@ -139,13 +138,15 @@ public class Producto {
 		this.borrado = borrado;
 	}
 	
-	public void addNuevaCategoria(Categoria c) {
+	public void agregarCategoria(Categoria c) {
 		categorias.add(c);
 	}
 	
 	public void verificarProducto() throws SupermercadoException {
+		//oferta
+		if(this.getOferta()<0 || this.getOferta()>100)throw new SupermercadoException("La oferta no puede ser menor a 0 o mayor a 100");
 		//Nombre
-		if(this.getNombre().isEmpty())throw new SupermercadoException("El nombre no puede ser vacio");
+		if(this.getNombre().isEmpty() || this.getNombre()==null)throw new SupermercadoException("El nombre no puede ser vacio");
 		if(this.getNombre().length()<3)throw new SupermercadoException("El nombre no puede ser menor a 3 caracteres");
 		if(this.getNombre().length()>40)throw new SupermercadoException("El nombre no puede ser mayor a 40 caracteres");
 		if(Utilidades.verificarCaracteresEspeciales(this.getNombre()))throw new SupermercadoException("El nombre no puede contener caracteres especiales");
@@ -155,7 +156,7 @@ public class Producto {
 		//Imagen
 		if(this.getUrlImagen().isEmpty()|| this.getUrlImagen()==null)throw new SupermercadoException("El url de la imagen no puede ser vacio");
 		//Descripcion
-		if(this.getDescripcion().isEmpty())throw new SupermercadoException("La descripcion no puede ser vacia");
+		//if(this.getDescripcion().isEmpty())throw new SupermercadoException("La descripcion no puede ser vacia");
 		if(this.getDescripcion().length()>1000)throw new SupermercadoException("La descripcion no puede ser mayor a 1000 caracteres");
 		//Categoria
 		if(this.getCategorias().isEmpty())throw new SupermercadoException("Tiene que tener al menos 1 categoria");

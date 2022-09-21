@@ -25,8 +25,7 @@ import com.springboot.TresSolesApi.Service.UsuarioService;
 public class ControllerPicker {
 	@Autowired
 	PedidoService pedidoService;
-	@Autowired
-	UsuarioService usuarioService;
+	
 	@GetMapping("/pedidosPicker")
 	public List<Pedido> getPedidosPicker(){
 		//id 1 En_Espera id 2 Armando id 3 Por_Recoger
